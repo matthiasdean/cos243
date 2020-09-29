@@ -1,4 +1,9 @@
---Daisy and Matthias
+/*
+	Ride Share Schema schema.sql
+	COS 243
+	Daisy Bell & Matthias Dean
+*/
+
 create table "User"
 (
     user_id     serial                not null
