@@ -1,5 +1,6 @@
 /*
-	Ride Share Schema schema.sql
+	Ride Share Schema 
+    Database Schema
 	COS 243
 	Daisy Bell & Matthias Dean
 */

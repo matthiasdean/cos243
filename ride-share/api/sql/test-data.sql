@@ -1,5 +1,6 @@
 /*
-	Ride Share Schema test-data.sql
+	Ride Share Schema 
+	Test Data
 	COS 243
 	Daisy Bell & Matthias Dean
 */
