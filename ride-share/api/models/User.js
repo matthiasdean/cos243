@@ -17,19 +17,7 @@ One-to-One      BelongsToOneRelation    Source
                 HasOneThroughRelation   Join table
 */
 
-const { knex, Model } = require("../db.js");
-
-class Driver extends Model {
-    static get tableName() {
-        return 'Driver';
-    }
-}
-
-class Passenger extends Model {
-    static get tableName() {
-        return 'Passenger';
-    }
-}
+const { knex, Model } = require("../db");
 
 class User extends Model {
     static get tableName() {
@@ -39,7 +27,7 @@ class User extends Model {
         return {
             drivers: {
                 relation: Model.HasManyRelation,
-                modelClass: Driver,
+                modelClass: require("./Driver"),
                 join: {
                     from: 'User.user_id',
                     to: 'Driver.user_id'
@@ -47,7 +35,7 @@ class User extends Model {
             },
             passengers: {
                 relation: Model.HasManyRelation,
-                modelClass: Passenger,
+                modelClass: require("./Passenger"),
                 join: {
                     from: 'User.user_id',
                     to: 'Passenger.passenger_id'
@@ -58,9 +46,11 @@ class User extends Model {
     }
 }
 
+/*
 User.query().withSchema('ride_share')
     .select('user_id')
     .withGraphFetched('drivers')
     .then(user => console.log(user))
     .catch(error => console.log(error.message))
     .then(() => knex.destroy());
+*/
