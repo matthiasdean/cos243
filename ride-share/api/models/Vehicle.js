@@ -41,10 +41,12 @@ class Vehicle extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: require("./State"),
                 join: {
-                    from: 'Vehicle.license_state',
+                    from: 'Vehicle.licence_state',
                     to: 'State.abbreviation'
                 }
             }
         };
     }
 }
+
+module.exports = Vehicle;

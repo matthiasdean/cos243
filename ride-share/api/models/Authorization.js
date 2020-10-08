@@ -32,3 +32,5 @@ class Authorization extends Model {
         };
     }
 }
+
+module.exports = Authorization;

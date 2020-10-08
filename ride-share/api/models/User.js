@@ -34,11 +34,4 @@ class User extends Model {
     }
 }
 
-/*
-User.query().withSchema('ride_share')
-    .select('user_id')
-    .withGraphFetched('drivers')
-    .then(user => console.log(user))
-    .catch(error => console.log(error.message))
-    .then(() => knex.destroy());
-*/
+module.exports = User;

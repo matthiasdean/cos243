@@ -8,4 +8,4 @@
 const Driver = require("../models/Driver.js");
 
 Driver.query()
-  .then((drivers) => //Do things
+	.then((drivers) => console.log(drivers));

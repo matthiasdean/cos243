@@ -6,8 +6,12 @@
 */
 
 const Location = require("../models/Location.js");
+const { knex, Model } = require("../db");
 
-Location.query()
 
-    .catch(error => console.log(error.message))
-    .then(() => knex.destroy());
+Location.query().withSchema('ride_share')
+	.select('location_id')
+	.withGraphFetched('states')
+	.then(location => console.log(location))
+	.catch(error => console.log(error.message))
+	.then(() => knex.destroy());

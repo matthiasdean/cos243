@@ -5,9 +5,12 @@
 	Daisy Bell & Matthias Dean
 */
 
+const { knex, Model } = require("../db");
 const State = require("../models/State.js");
 
-State.query()
-
+State.query().withSchema('ride_share')
+    .select('abbreviation')
+    .withGraphFetched('locations')
+    .then(state => console.log(state))
     .catch(error => console.log(error.message))
     .then(() => knex.destroy());

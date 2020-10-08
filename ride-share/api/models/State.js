@@ -18,7 +18,7 @@ class State extends Model {
                 modelClass: require("./Vehicle"),
                 join: {
                     from: 'State.abbreviation',
-                    to: 'Vehicle.license_state'
+                    to: 'Vehicle.licence_state'
                 }
             },
             drivers: {
@@ -26,7 +26,7 @@ class State extends Model {
                 modelClass: require("./Driver"),
                 join: {
                     from: 'State.abbreviation',
-                    to: 'Driver.licenseState'
+                    to: 'Driver.licenceState'
                 }
             },
             locations: {
@@ -40,3 +40,5 @@ class State extends Model {
         };
     }
 }
+
+module.exports = State;

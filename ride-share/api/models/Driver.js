@@ -41,10 +41,12 @@ class Driver extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: require("./State"),
                 join: {
-                    from: 'Driver.licenseState',
+                    from: 'Driver.licenceState',
                     to: 'State.abbreviation'
                 }
             }
         };
     }
 }
+
+module.exports = Driver;

@@ -33,3 +33,5 @@ class Drivers extends Model {
         };
     }
 }
+
+module.exports = Drivers;
