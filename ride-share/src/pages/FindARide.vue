@@ -10,9 +10,13 @@
       >
         <template v-slot:item="{ item }">
           <tr v-bind:class="itemClass(item)">
-            <td>{{ item.email }}</td>
-            <td>{{ item.firstName }}</td>
-            <td>{{ item.lastName }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.to_name }}</td>
+            <td>{{ item.from_name }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.state }}</td>
+            <td>{{ item.zip_code }}</td>
             <td>
               <v-icon small @click="deleteAccount(item)">
                 mdi-delete
@@ -37,17 +41,22 @@
 
 <script>
 export default {
-  name: "Accounts",
+  name: "Rides",
 
   data: function() {
     return {
       headers: [
-        { text: "Email", value: "email" },
-        { text: "First", value: "firstName" },
-        { text: "Last", value: "lastName" },
+        { text: "Date", value: "date" },
+        { text: "Time", value: "time" },
+        { text: "To Location", value: "to_name" },
+        { text: "From Location", value: "from_name" },
+        { text: "Address", value: "address" },
+        { text: "City", value: "city" },
+        { text: "State", value: "state" },
+        { text: "ZIP", value: "zip_code" },
         { text: "Action", value: "action" }
       ],
-      accounts: [],
+      rides: [],
 
       snackbar: {
         show: false,
@@ -57,12 +66,18 @@ export default {
   },
 
   mounted: function() {
-    this.$axios.get("/accounts").then(response => {
-      this.accounts = response.data.map(account => ({
-        id: account.id,
-        email: account.email,
-        firstName: account.first_name,
-        lastName: account.last_name
+    this.$axios.get("/ride").then(response => {
+      this.rides = response.data.map(ride => (
+        //console.log(ride.to_locations.zip_code), 
+        {
+        date: ride.date,
+        time: ride.time,
+        to_name: ride.to_locations.name,
+        from_name: ride.from_locations.name,
+        address: ride.to_locations.address,
+        city: ride.to_locations.city,
+        state: ride.to_locations.state,
+        zip_code: ride.to_locations.zip_code
       }));
     });
   },
@@ -94,8 +109,8 @@ export default {
         if (response.data.ok) {
           // The delete operation worked on the server; delete the local account
           // by filtering the deleted account from the list of accounts.
-          this.accounts = this.accounts.filter(
-            account => account.id !== item.id
+          this.rides = this.rides.filter(
+            ride => ride.id !== item.id
           );
         }
       });

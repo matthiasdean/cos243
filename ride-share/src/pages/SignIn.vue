@@ -75,8 +75,8 @@ export default {
       this.showSnackbar("Log in Successful! Welcome!");
       this.$store.commit("logIn", {
               user_id: 3,
-              firstName: "Dr.",
-              lastName: "Nurk",
+              firstName: "Test_User",
+              lastName: "Test",
               email: "nope",
             });
       this.$router.push({ name: "home-page" });

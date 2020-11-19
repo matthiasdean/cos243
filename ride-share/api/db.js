@@ -9,7 +9,7 @@ const knex = require('knex') ({
     connection: {
         host: 'faraday.cse.taylor.edu',
         user: 'daisy_bell',
-        password: 'gakehere',
+        password: 'kohifaga',
         database: 'daisy_bell'
     }
 })

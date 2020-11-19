@@ -15,6 +15,7 @@ objection.Model.knex(knex);
 
 // Models
 //const Account = require("./models/Account");
+const Ride = require("./api/models/Ride")
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -146,12 +147,16 @@ async function init() {
 
     {
       method: "GET",
-      path: "/accounts",
+      path: "/ride",
       config: {
-        description: "Retrieve all accounts",
+        description: "Retrieve all rides",
       },
       handler: (request, h) => {
-        return Account.query();
+        return Ride.query()
+          .withSchema('ride_share')
+          .select('date', 'time')
+          .withGraphFetched('to_locations')
+          .withGraphFetched('from_locations');
       },
     },
 
