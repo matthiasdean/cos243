@@ -2,7 +2,7 @@
   <v-app-bar app dark color="primary">
     <router-link v-bind:to="{ name: 'home-page' }">
       <v-toolbar-title class="white--text">
-        Daisy and Matthias' Ride Share App
+        DM Ride Share
       </v-toolbar-title>
     </router-link>
 
@@ -20,8 +20,8 @@
     <v-btn v-if="isLoggedIn && !isDriver" text v-bind:to="{ name: 'become-a-driver' }">
       Become a Driver
     </v-btn>
-    <v-btn v-if="isLoggedIn" text v-bind:to="{ name: 'view-rides' }">
-      View Rides
+    <v-btn v-if="isLoggedIn" text v-bind:to="{ name: 'my-rides' }">
+      My Rides
     </v-btn>
     <v-btn v-if="isDriver && isLoggedIn" text v-bind:to="{ name: 'provide-a-ride' }">
       Provide a Ride
@@ -38,14 +38,9 @@
       </template>
 
       <v-list>
-        <v-list-item v-bind:to="{ name: 'accounts' }">
-          <v-list-item-title>Accounts</v-list-item-title>
-        </v-list-item>
-
-        <v-divider></v-divider>
-
-        <v-list-item v-bind:to="{ name: 'reset-password' }"> 
-          <v-list-item-title>Reset Password</v-list-item-title>
+        <v-list-item>
+          <v-list-item-title v-if="isDriver">Driver</v-list-item-title>
+          <v-list-item-title v-elseif="!isDriver">User</v-list-item-title>
         </v-list-item>
 
         <v-divider></v-divider>

@@ -1,12 +1,12 @@
 <template>
   <v-container>
     <div>
-      <h4 class="display-1">View Rides</h4>
+      <h4 class="display-1">My Rides</h4>
 
       <v-data-table
         class="elevation-1"
         v-bind:headers="headers"
-        v-bind:items="view-rides"
+        v-bind:items="my-rides"
       >
         <template v-slot:item="{ item }">
           <tr v-bind:class="itemClass(item)">

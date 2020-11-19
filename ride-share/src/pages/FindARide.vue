@@ -95,6 +95,7 @@ export default {
       if (currentAccount && currentAccount.id === item.id) {
         return "currentAccount";
       }
+      return currentAccount;
     },
 
     // Update account information.

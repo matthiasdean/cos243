@@ -16,6 +16,8 @@ objection.Model.knex(knex);
 // Models
 //const Account = require("./models/Account");
 const Ride = require("./api/models/Ride")
+const User = require("./api/models/User")
+const Driver = require("./api/models/Driver")
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -89,61 +91,6 @@ async function init() {
       },
     },
 
-    {
-      method: "PATCH",
-      path: "/accounts",
-      config: {
-        description: "Edit account information",
-        validate: {
-          payload: Joi.object({
-            email: Joi.string().email().required(),
-            password: Joi.string().required(),
-            newPassword: Joi.string().required(),
-            confirmNewPassword: Joi.string().required(),
-          }),
-        },
-      },
-      handler: async (request, h) => {
-        const existingAccount = await Account.query()
-          .where("email", request.payload.email)
-          .first();
-        if (!existingAccount) {
-          return {
-            ok: false,
-            msge: `Account with email '${request.payload.email}' does not exist`,
-          };
-        } else if (request.payload.newPassword != request.payload.confirmNewPassword) {
-          return {
-            ok: false,
-            msge: `New passwords do not match!`,
-          };
-        } else if (await !account.verifyPassword(request.payload.password)) {
-          return {
-            ok: false,
-            msge: `Invalid old password!`,
-          };
-
-        }
-
-        const updatePassword = await Account.query()
-          .where("email", request.payload.email)
-          .update({
-            password: request.payload.newPassword,
-        });
-
-        if (updatePassword) {
-          return {
-            ok: true,
-            msge: `Changed password for account '${request.payload.email}'`,
-          };
-        } else {
-          return {
-            ok: false,
-            msge: `Couldn't update account with email '${request.payload.email}'`,
-          };
-        }
-      },
-    },
 
     {
       method: "GET",
@@ -192,24 +139,54 @@ async function init() {
         description: "Log in",
       },
       handler: async (request, h) => {
-        const account = await Account.query()
+        const user = await User.query().withSchema('ride_share')
           .where("email", request.payload.email)
           .first();
-        if (account) {
+        if (user) {
           return {
             ok: true,
             msge: `Logged in successfully as '${request.payload.email}'`,
             details: {
-              id: account.id,
-              firstName: account.first_name,
-              lastName: account.last_name,
-              email: account.email,
+              id: user.user_id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
             },
           };
         } else {
           return {
             ok: false,
             msge: "Invalid email or password",
+          };
+        }
+      },
+    },
+
+    {
+      method: "POST",
+      path: "/driver",
+      config: {
+        description: "Drivers in system",
+      },
+      handler: async (request, h) => {
+        const driver = await Driver.query().withSchema('ride_share')
+          .where("user_id", request.payload.user_id)
+          .first();
+        if (driver) {
+          return {
+            ok: true,
+            msge: `User with user id '${request.payload.user_id}' is a driver.`,
+            details: {
+              driver_id: driver.driver_id,
+              user_id: driver.user_id,
+              licenseNumber: driver.licenseNumber,
+              licenseState: driver.LicenseState,
+            },
+          };
+        } else {
+          return {
+            ok: false,
+            msge: "User is not a driver",
           };
         }
       },

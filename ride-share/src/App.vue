@@ -8,8 +8,8 @@
     </v-content>
     <v-footer class="pa-3">
       <v-layout justify-center class="font-weight-thin">
-        &copy; {{ new Date().getFullYear() }} Wry and Feckless Morale Boosters,
-        LLC&mdash;A Firegraph Company
+        &copy; {{ new Date().getFullYear() }} Daisy and Matthias COS 243,
+        &mdash; A Nurkkala Project
       </v-layout>
     </v-footer>
   </v-app>

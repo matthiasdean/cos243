@@ -27,7 +27,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn v-on:click="spoofLogIn" color="primary">Log In</v-btn>
+            <v-btn v-on:click="logIn" color="primary">Log In</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -65,6 +65,20 @@ export default {
           this.showSnackbar(result.data.msge);
           if (result.data.ok) {
             this.$store.commit("logIn", result.data.details);
+            // Check if user is a driver
+            this.$axios
+              .post("/driver", {
+                user_id: result.data.details.id
+              })
+              .then((driver_result) => {
+                this.showSnackbar(driver_result.data.msge);
+                if (driver_result.data.ok) {
+                  this.$store.commit("becomeDriver");
+                }
+              })
+
+
+            // Send to homepage 
             this.$router.push({ name: "home-page" });
           }
         })
