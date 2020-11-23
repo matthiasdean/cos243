@@ -6,19 +6,21 @@
       <v-data-table
         class="elevation-1"
         v-bind:headers="headers"
-        v-bind:items="my-rides"
+        v-bind:items="rides"
       >
         <template v-slot:item="{ item }">
           <tr v-bind:class="itemClass(item)">
-            <td>{{ item.email }}</td>
-            <td>{{ item.firstName }}</td>
-            <td>{{ item.lastName }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.distance }}</td>
+            <td>{{ item.fuel_price }}</td>
+            <td>{{ item.fee }}</td>
             <td>
               <v-icon small @click="deleteAccount(item)">
                 mdi-delete
               </v-icon>
-              <v-icon small class="ml-2" @click="updateAccount(item)">
-                mdi-pencil
+              <v-icon v-if="isDriver" small @click="updateAccount(item)">
+                mdi-steering
               </v-icon>
             </td>
           </tr>
@@ -37,17 +39,29 @@
 
 <script>
 export default {
-  name: "Accounts",
+
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
+    isDriver() {
+      return this.$store.getters.isDriver;
+    },
+  },
+
+  name: "Rides",
 
   data: function() {
     return {
       headers: [
-        { text: "Email", value: "email" },
-        { text: "First", value: "firstName" },
-        { text: "Last", value: "lastName" },
+        { text: "Date", value: "date" },
+        { text: "Time", value: "time" },
+        { text: "Distance", value: "distance" },
+        { text: "Fuel Price", value: "fuel_price" },
+        { text: "Fee", value: "fee" },
         { text: "Action", value: "action" }
       ],
-      accounts: [],
+      rides: [],
 
       snackbar: {
         show: false,
@@ -57,12 +71,17 @@ export default {
   },
 
   mounted: function() {
-    this.$axios.get("/accounts").then(response => {
-      this.accounts = response.data.map(account => ({
-        id: account.id,
-        email: account.email,
-        firstName: account.first_name,
-        lastName: account.last_name
+    this.$axios.post("/rides", {
+        passenger_id: this.$store.state.currentAccount.id
+    })
+    .then(response => {
+      this.rides = response.data.map(ride => ({
+        ride_id: ride.ride_id,
+        date: ride.rides.date,
+        time: ride.rides.time,
+        distance: ride.rides.distance,
+        fuel_price: ride.rides.fuel_price,
+        fee: ride.rides.fee,
       }));
     });
   },

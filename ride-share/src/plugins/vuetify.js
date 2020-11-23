@@ -2,8 +2,10 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import "vuetify/dist/vuetify.min.css";
 import colors from 'vuetify/lib/util/colors'
+import VueSimpleAlert from "vue-simple-alert";
 
 Vue.use(Vuetify);
+Vue.use(VueSimpleAlert);
 
 export default new Vuetify({
     theme: {

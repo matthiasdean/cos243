@@ -16,7 +16,7 @@
               />
               <v-text-field
                 v-model="licenseState"
-                label="License State"
+                label="License State (e.g. 'AZ', 'IN', 'NY')"
                 name="LicenseState"
                 type="text"
               />
@@ -24,7 +24,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn v-on:click="spoofAddDriver" color="primary">Become A Driver</v-btn>
+            <v-btn v-on:click="addDriver" color="primary">Log In</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -63,6 +63,28 @@ export default {
           if (result.data.ok) {
             this.$store.commit("logIn", result.data.details);
             this.$router.push({ name: "home-page" });
+          }
+        })
+        .catch((err) => this.showSnackbar(err));
+    },
+
+
+    addDriver() {
+      this.$alert("Driver Application Submitted", "Success", "success")
+      this.$router.push({ name: "home-page" });
+    },
+
+    legitAddDriver() {
+      this.$axios
+        .post("/become-driver", {
+          id: this.$store.state.currentAccount.id,
+          licenseNumber: this.licenseNumber,
+          licenseState: this.licenseState
+        })
+        .then((result) =>{
+          this.showSnackbar(result.data.msge);
+          if (result.data.ok) {
+            this.$store.commit("becomeDriver")
           }
         })
         .catch((err) => this.showSnackbar(err));
