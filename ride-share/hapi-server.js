@@ -195,6 +195,51 @@ async function init() {
         }
       },
     },
+
+    {
+      method: "POST",
+      path: "/rides",
+      config: {
+        description: "Find a user's rides",
+      },
+      handler: (request, h) => {
+        return Passenger.query()
+          .withSchema('ride_share')
+          .select('ride_id')
+          .withGraphFetched('rides')
+          .where("passenger_id", request.payload.passenger_id);
+      },
+    },
+
+    {
+      method: "POST",
+      path: "/become-driver",
+      config: {
+        description: "Set user as driver",
+      },
+      handler: async (request, h) => {
+        const driver = await Driver.query().withSchema('ride_share')
+          .where("user_id", request.payload.user_id)
+          .first();
+        if (driver) {
+          return {
+            ok: true,
+            msge: `User with user id '${request.payload.user_id}' is a driver.`,
+            details: {
+              driver_id: driver.driver_id,
+              user_id: driver.user_id,
+              licenseNumber: driver.licenseNumber,
+              licenseState: driver.LicenseState,
+            },
+          };
+        } else {
+          return {
+            ok: false,
+            msge: "User is not a driver",
+          };
+        }
+      },
+    },
   ]);
 
   // Start the server.

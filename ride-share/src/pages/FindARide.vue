@@ -6,7 +6,7 @@
       <v-data-table
         class="elevation-1"
         v-bind:headers="headers"
-        v-bind:items="find-a-ride"
+        v-bind:items="rides"
       >
         <template v-slot:item="{ item }">
           <tr v-bind:class="itemClass(item)">
@@ -15,14 +15,12 @@
             <td>{{ item.to_name }}</td>
             <td>{{ item.from_name }}</td>
             <td>{{ item.address }}</td>
+            <td>{{ item.city }}</td>
             <td>{{ item.state }}</td>
             <td>{{ item.zip_code }}</td>
             <td>
-              <v-icon small @click="deleteAccount(item)">
-                mdi-delete
-              </v-icon>
               <v-icon small class="ml-2" @click="updateAccount(item)">
-                mdi-pencil
+                mdi-transit-transfer
               </v-icon>
             </td>
           </tr>

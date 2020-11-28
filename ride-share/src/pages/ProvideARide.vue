@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div>
-      <h4 class="display-1">Provide a Ride</h4>
+      <h4 class="display-1">Driver</h4>
 
       <v-data-table
         class="elevation-1"

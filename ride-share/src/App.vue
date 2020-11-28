@@ -8,7 +8,7 @@
     </v-content>
     <v-footer class="pa-3">
       <v-layout justify-center class="font-weight-thin">
-        &copy; {{ new Date().getFullYear() }} Daisy and Matthias COS 243,
+        &copy; {{ new Date().getFullYear() }} Daisy and Matthias COS 243
         &mdash; A Nurkkala Project
       </v-layout>
     </v-footer>
