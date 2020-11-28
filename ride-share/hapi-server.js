@@ -18,6 +18,7 @@ objection.Model.knex(knex);
 const Ride = require("./api/models/Ride");
 const User = require("./api/models/User");
 const Driver = require("./api/models/Driver");
+const Passenger = require("./api/models/Passenger");
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
