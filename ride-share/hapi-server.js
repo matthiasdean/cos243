@@ -15,9 +15,9 @@ objection.Model.knex(knex);
 
 // Models
 //const Account = require("./models/Account");
-const Ride = require("./api/models/Ride")
-const User = require("./api/models/User")
-const Driver = require("./api/models/Driver")
+const Ride = require("./api/models/Ride");
+const User = require("./api/models/User");
+const Driver = require("./api/models/Driver");
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -54,13 +54,15 @@ async function init() {
           payload: Joi.object({
             firstName: Joi.string().required(),
             lastName: Joi.string().required(),
-            email: Joi.string().email().required(),
+            email: Joi.string()
+              .email()
+              .required(),
             password: Joi.string().required(),
           }),
         },
       },
       handler: async (request, h) => {
-        const existingAccount = await Account.query()
+        const existingAccount = await User.query()
           .where("email", request.payload.email)
           .first();
         if (existingAccount) {
@@ -70,11 +72,12 @@ async function init() {
           };
         }
 
-        const newAccount = await Account.query().insert({
-          first_name: request.payload.firstName,
-          last_name: request.payload.lastName,
+        const newAccount = await User.query().insert({
+          firstName: request.payload.firstName,
+          lastName: request.payload.lastName,
           email: request.payload.email,
           password: request.payload.password,
+          phone: "765-555-1212" // THIS SHOULD BE ANOTHER FORM FIELD
         });
 
         if (newAccount) {
@@ -91,7 +94,6 @@ async function init() {
       },
     },
 
-
     {
       method: "GET",
       path: "/ride",
@@ -100,10 +102,10 @@ async function init() {
       },
       handler: (request, h) => {
         return Ride.query()
-          .withSchema('ride_share')
-          .select('date', 'time')
-          .withGraphFetched('to_locations')
-          .withGraphFetched('from_locations');
+          .withSchema("ride_share")
+          .select("date", "time")
+          .withGraphFetched("to_locations")
+          .withGraphFetched("from_locations");
       },
     },
 
@@ -139,7 +141,8 @@ async function init() {
         description: "Log in",
       },
       handler: async (request, h) => {
-        const user = await User.query().withSchema('ride_share')
+        const user = await User.query()
+          .withSchema("ride_share")
           .where("email", request.payload.email)
           .first();
         if (user) {
@@ -169,7 +172,8 @@ async function init() {
         description: "Drivers in system",
       },
       handler: async (request, h) => {
-        const driver = await Driver.query().withSchema('ride_share')
+        const driver = await Driver.query()
+          .withSchema("ride_share")
           .where("user_id", request.payload.user_id)
           .first();
         if (driver) {
