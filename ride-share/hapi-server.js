@@ -19,6 +19,7 @@ const Ride = require("./api/models/Ride");
 const User = require("./api/models/User");
 const Driver = require("./api/models/Driver");
 const Passenger = require("./api/models/Passenger");
+const Vehicle = require("./api/models/Vehicle");
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -209,6 +210,31 @@ async function init() {
     },
 
     {
+      method: "DELETE",
+      path: "/ride/{ride_id}",
+      config: {
+        description: "Delete an exisiting ride",
+      },
+      handler: (request, h) => {
+        return Ride.query()
+          .deleteById(request.params.ride_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted ride with ID '${request.params.ride_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete ride with ID '${request.params.ride_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
       method: "POST",
       path: "/rides",
       config: {
@@ -270,6 +296,17 @@ async function init() {
             msge: "User is not a driver",
           };
         }
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/vehicles",
+      config: {
+        description: "Retrieve all vehicles",
+      },
+      handler: () => {
+        return Vehicle.query();
       },
     },
   ]);

@@ -76,7 +76,7 @@ export default {
         this.rides = response.data.map((ride) => ({
           ride_id: ride.ride_id,
           date: ride.rides.date,
-          time: ride.rides.time,
+          time: ride.rdes.time,
           distance: ride.rides.distance,
           fuel_price: ride.rides.fuel_price,
           fee: ride.rides.fee,
