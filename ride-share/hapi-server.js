@@ -222,27 +222,29 @@ async function init() {
     },
 
     {
-      method: "DELETE",
-      path: "/rides",
+      method: "POST",
+      path: "/passenger", 
       config: {
         description: "Remove a user from a ride.",
       },
       handler: (request, h) => {
         Passenger.query()
-          .withSchema("ride_share")
-          //.deleteById(request.payload.passenger_id, reques.payload.ride_id);
-          .where("passenger_id", request.payload.passenger_id)
-          .andWhere("ride_id", request.payload.ride_id)
+          // What we want to do:
+          //.where("passenger_id", request.payload.passenger_id)
+          //.andWhere("ride_id", request.payload.ride_id)
+
+          // Our "There is no way this can fail" solution (it failed)
+          .where( {passenger_id: 6, ride_id: 9} )
           .del();
         return {
-          msge: "Removed User from Ride.",
+          msge: `Removed User from Ride. PID: ${request.payload.passenger_id} - RID: ${request.payload.ride_id}`,
         };
       },
     },
 
     {
       method: "POST",
-      path: "/become-driver",
+      path: "/become-driver", // TODO: change this 
       config: {
         description: "Set user as driver",
       },

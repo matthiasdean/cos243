@@ -9,8 +9,8 @@ const { knex, Model } = require("../db");
 const Ride = require("../models/Passenger.js");
 
 Ride.query().withSchema('ride_share')
-    .where("passenger_id", 2)
-    .andWhere("ride_id", 8)
+    .where("passenger_id", 6)
+    .andWhere("ride_id", 9)
     .del()
     .catch(error => console.log(error.message))
     .then(() => knex.destroy());

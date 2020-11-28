@@ -101,7 +101,8 @@ export default {
 
     deleteRide(item) {
       console.log("UPDATE", JSON.stringify(item, null, 2));
-      this.$axios.delete("/rides", {
+      console.log("CURRENT ride ID: ", item.ride_id)
+      this.$axios.post("/passenger", {
         passenger_id: this.$store.state.currentAccount.id,
         ride_id: item.ride_id,
       })

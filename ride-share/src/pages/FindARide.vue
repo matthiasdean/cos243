@@ -75,9 +75,12 @@ export default {
 
   mounted: function() {
     this.$axios.get("/rides").then((response) => {
+      console.log("RESPONSE", response);
       this.rides = response.data.map((ride) =>
         //console.log(ride.to_locations.zip_code),
-        ({
+        (
+          console.log("RIDE", ride),
+          {
           ride_id: ride.ride_id,
           date: ride.date,
           time: ride.time,
