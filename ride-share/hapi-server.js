@@ -223,28 +223,28 @@ async function init() {
 
     {
       method: "POST",
-      path: "/passenger", 
+      path: "/passenger",
       config: {
         description: "Remove a user from a ride.",
       },
-      handler: (request, h) => {
+      handler: (request, h) =>
         Passenger.query()
-          // What we want to do:
-          //.where("passenger_id", request.payload.passenger_id)
-          //.andWhere("ride_id", request.payload.ride_id)
-
-          // Our "There is no way this can fail" solution (it failed)
-          .where( {passenger_id: 6, ride_id: 9} )
-          .del();
-        return {
-          msge: `Removed User from Ride. PID: ${request.payload.passenger_id} - RID: ${request.payload.ride_id}`,
-        };
-      },
+          .where({
+            passenger_id: request.payload.passenger_id,
+            ride_id: request.payload.ride_id,
+          })
+          .delete()
+          .then((result) => {
+            console.log("RESULT", result);
+            return {
+              msge: `Removed User from Ride. PID: ${request.payload.passenger_id} - RID: ${request.payload.ride_id}`,
+            };
+          }),
     },
 
     {
       method: "POST",
-      path: "/become-driver", // TODO: change this 
+      path: "/become-driver", // TODO: change this
       config: {
         description: "Set user as driver",
       },

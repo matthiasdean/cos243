@@ -39,7 +39,6 @@
 
 <script>
 export default {
-
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn;
@@ -59,29 +58,30 @@ export default {
         { text: "Distance", value: "distance" },
         { text: "Fuel Price", value: "fuel_price" },
         { text: "Fee", value: "fee" },
-        { text: "Action", value: "action" }
+        { text: "Action", value: "action" },
       ],
       rides: [],
 
       snackbar: {
         show: false,
-        text: ""
-      }
+        text: "",
+      },
     };
   },
 
   mounted: function() {
-    this.$axios.get(`/rides/${this.$store.state.currentAccount.id}`)
-    .then(response => {
-      this.rides = response.data.map(ride => ({
-        ride_id: ride.ride_id,
-        date: ride.rides.date,
-        time: ride.rides.time,
-        distance: ride.rides.distance,
-        fuel_price: ride.rides.fuel_price,
-        fee: ride.rides.fee,
-      }));
-    });
+    this.$axios
+      .get(`/rides/${this.$store.state.currentAccount.id}`)
+      .then((response) => {
+        this.rides = response.data.map((ride) => ({
+          ride_id: ride.ride_id,
+          date: ride.rides.date,
+          time: ride.rides.time,
+          distance: ride.rides.distance,
+          fuel_price: ride.rides.fuel_price,
+          fee: ride.rides.fee,
+        }));
+      });
   },
 
   methods: {
@@ -101,11 +101,12 @@ export default {
 
     deleteRide(item) {
       console.log("UPDATE", JSON.stringify(item, null, 2));
-      console.log("CURRENT ride ID: ", item.ride_id)
+      console.log("CURRENT ride ID: ", item.ride_id);
       this.$axios.post("/passenger", {
         passenger_id: this.$store.state.currentAccount.id,
         ride_id: item.ride_id,
-      })
+      });
+      this.rides = this.rides.filter((ride) => ride.ride_id !== item.ride_id);
       this.showSnackbar("Ride removed.");
     },
 
@@ -117,17 +118,17 @@ export default {
 
     // Delete an account.
     deleteAccount(item) {
-      this.$axios.delete(`/accounts/${item.id}`).then(response => {
+      this.$axios.delete(`/accounts/${item.id}`).then((response) => {
         if (response.data.ok) {
           // The delete operation worked on the server; delete the local account
           // by filtering the deleted account from the list of accounts.
           this.accounts = this.accounts.filter(
-            account => account.id !== item.id
+            (account) => account.id !== item.id
           );
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
