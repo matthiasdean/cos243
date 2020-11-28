@@ -11,6 +11,9 @@ class Passenger extends Model {
   static get tableName() {
     return "Passenger";
   }
+  static get idColumn() {
+    return ["passenger_id", "ride_id"];
+  }
   static get relationMappings() {
     return {
       users: {

@@ -71,10 +71,7 @@ export default {
   },
 
   mounted: function() {
-    this.$axios.post("/rides", {
-        passenger_id: this.$store.state.currentAccount.id,
-        signup: false
-    })
+    this.$axios.get(`/rides/${this.$store.state.currentAccount.id}`)
     .then(response => {
       this.rides = response.data.map(ride => ({
         ride_id: ride.ride_id,

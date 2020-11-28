@@ -78,7 +78,7 @@ async function init() {
           lastName: request.payload.lastName,
           email: request.payload.email,
           password: request.payload.password,
-          phone: "765-555-1212" // THIS SHOULD BE ANOTHER FORM FIELD
+          phone: "765-555-1212", // THIS SHOULD BE ANOTHER FORM FIELD
         });
 
         if (newAccount) {
@@ -97,14 +97,12 @@ async function init() {
 
     {
       method: "GET",
-      path: "/ride",
+      path: "/rides",
       config: {
         description: "Retrieve all rides",
       },
-      handler: (request, h) => {
+      handler: () => {
         return Ride.query()
-          .withSchema("ride_share")
-          .select("date", "time")
           .withGraphFetched("to_locations")
           .withGraphFetched("from_locations");
       },
@@ -199,28 +197,28 @@ async function init() {
     },
 
     {
+      method: "GET",
+      path: "/rides/{userId}",
+      config: {
+        description: "Retrieve rides for a given user",
+      },
+      handler: (request) =>
+        Passenger.query()
+          .where("passenger_id", request.params.userId)
+          .withGraphFetched("rides"),
+    },
+
+    {
       method: "POST",
       path: "/rides",
       config: {
-        description: "Find a user's rides",
+        description: "Add a user to a ride",
       },
-      handler: (request, h) => {
-        if (request.payload.signup) {
-          //Passenger.query()
-          knex("passenger")
-            .withSchema('ride_share')
-            .insert({passenger_id: request.payload.passenger_id, ride_id: request.payload.ride_id});
-          //return {
-          //  msge: "Added to Ride",
-          //}
-        } else {
-          return Passenger.query()
-            .withSchema('ride_share')
-            .select('ride_id')
-            .withGraphFetched('rides')
-            .where("passenger_id", request.payload.passenger_id);
-        }
-      },
+      handler: (request) =>
+        Passenger.query().insert({
+          passenger_id: request.payload.passenger_id,
+          ride_id: request.payload.ride_id,
+        }),
     },
 
     {
@@ -231,14 +229,14 @@ async function init() {
       },
       handler: (request, h) => {
         Passenger.query()
-          .withSchema('ride_share')
+          .withSchema("ride_share")
           //.deleteById(request.payload.passenger_id, reques.payload.ride_id);
           .where("passenger_id", request.payload.passenger_id)
           .andWhere("ride_id", request.payload.ride_id)
           .del();
         return {
-          msge: "Removed User from Ride."
-        }
+          msge: "Removed User from Ride.",
+        };
       },
     },
 
@@ -249,7 +247,8 @@ async function init() {
         description: "Set user as driver",
       },
       handler: async (request, h) => {
-        const driver = await Driver.query().withSchema('ride_share')
+        const driver = await Driver.query()
+          .withSchema("ride_share")
           .where("user_id", request.payload.user_id)
           .first();
         if (driver) {
