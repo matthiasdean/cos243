@@ -10,6 +10,7 @@ import FindARide from "./pages/FindARide.vue";
 import BecomeADriver from "./pages/BecomeADriver.vue";
 import MyRides from "./pages/MyRides.vue";
 import ProvideARide from "./pages/ProvideARide.vue";
+import AdminPage from "./pages/Admin.vue";
 
 
 Vue.use(Router);
@@ -27,5 +28,6 @@ export default new Router({
     { name: "become-a-driver", path: "/become-a-driver", component: BecomeADriver },
     { name: "my-rides", path: "/my-rides", component: MyRides },
     { name: "provide-a-ride", path: "/provide-a-ride", component: ProvideARide },
+    { name: "admin-page", path: "/admin", component: AdminPage },
   ]
 });

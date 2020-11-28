@@ -65,6 +65,7 @@ export default {
           this.showSnackbar(result.data.msge);
           if (result.data.ok) {
             this.$store.commit("logIn", result.data.details);
+
             // Check if user is a driver
             this.$axios
               .post("/driver", {

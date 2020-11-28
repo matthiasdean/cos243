@@ -152,6 +152,7 @@ async function init() {
               firstName: user.firstName,
               lastName: user.lastName,
               email: user.email,
+              isAdmin: user.isAdmin,
             },
           };
         } else {
@@ -200,11 +201,40 @@ async function init() {
         description: "Find a user's rides",
       },
       handler: (request, h) => {
-        return Passenger.query()
+        if (request.payload.signup) {
+          //Passenger.query()
+          knex("passenger")
+            .withSchema('ride_share')
+            .insert({passenger_id: request.payload.passenger_id, ride_id: request.payload.ride_id});
+          //return {
+          //  msge: "Added to Ride",
+          //}
+        } else {
+          return Passenger.query()
+            .withSchema('ride_share')
+            .select('ride_id')
+            .withGraphFetched('rides')
+            .where("passenger_id", request.payload.passenger_id);
+        }
+      },
+    },
+
+    {
+      method: "DELETE",
+      path: "/rides",
+      config: {
+        description: "Remove a user from a ride.",
+      },
+      handler: (request, h) => {
+        Passenger.query()
           .withSchema('ride_share')
-          .select('ride_id')
-          .withGraphFetched('rides')
-          .where("passenger_id", request.payload.passenger_id);
+          //.deleteById(request.payload.passenger_id, reques.payload.ride_id);
+          .where("passenger_id", request.payload.passenger_id)
+          .andWhere("ride_id", request.payload.ride_id)
+          .del();
+        return {
+          msge: "Removed User from Ride."
+        }
       },
     },
 

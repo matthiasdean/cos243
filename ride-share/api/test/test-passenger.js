@@ -9,8 +9,15 @@ const { knex, Model } = require("../db");
 const Ride = require("../models/Passenger.js");
 
 Ride.query().withSchema('ride_share')
+    .where("passenger_id", 2)
+    .andWhere("ride_id", 8)
+    .del()
+    .catch(error => console.log(error.message))
+    .then(() => knex.destroy());
+/*
     .select('ride_id')
     .withGraphFetched('rides')
     .then(ride => console.log(ride))
     .catch(error => console.log(error.message))
     .then(() => knex.destroy());
+    */

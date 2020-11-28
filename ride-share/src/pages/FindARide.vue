@@ -3,10 +3,19 @@
     <div>
       <h4 class="display-1">Find a Ride</h4>
 
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+
       <v-data-table
         class="elevation-1"
         v-bind:headers="headers"
         v-bind:items="rides"
+        v-bind:search="search"
       >
         <template v-slot:item="{ item }">
           <tr v-bind:class="itemClass(item)">
@@ -19,7 +28,7 @@
             <td>{{ item.state }}</td>
             <td>{{ item.zip_code }}</td>
             <td>
-              <v-icon small class="ml-2" @click="updateAccount(item)">
+              <v-icon small class="ml-2" @click="addRide(item)">
                 mdi-transit-transfer
               </v-icon>
             </td>
@@ -43,6 +52,7 @@ export default {
 
   data: function() {
     return {
+      search: '',
       headers: [
         { text: "Date", value: "date" },
         { text: "Time", value: "time" },
@@ -94,6 +104,18 @@ export default {
         return "currentAccount";
       }
       return currentAccount;
+    },
+
+    // Sign up for a ride
+    addRide(item) {
+      this.$axios.post("/rides", {
+        passenger_id: this.$store.state.currentAccount.id,
+        ride_id: item.ride_id,
+        signup: true
+      })
+      console.log("UPDATE", JSON.stringify(item, null, 2));
+      this.showSnackbar("Signed up for ride!");
+      
     },
 
     // Update account information.

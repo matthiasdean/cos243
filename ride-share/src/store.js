@@ -17,7 +17,7 @@ export default new Vuex.Store({
   // Access in components as `this.$store.state.currentAccount`
   state: {
     currentAccount: null,
-    driver: null
+    driver: null,
   },
 
   // A "getter" returns a computed property from the store, similar
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     },
     isDriver(state) {
       return state.driver !== null;
-    }
+    },
   },
 
   // Make changes to global state.
@@ -45,6 +45,6 @@ export default new Vuex.Store({
     },
     becomeDriver(state) {
       state.driver = true;
-    }
+    },
   }
 });

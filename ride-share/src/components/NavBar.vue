@@ -45,6 +45,12 @@
 
         <v-divider></v-divider>
 
+        <v-list-item v-if="isAdmin" v-bind:to="{ name: 'admin-page' }">
+          <v-list-item-title>Admin</v-list-item-title>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
         <v-list-item @click="signOut">
           <v-list-item-title>Sign Out</v-list-item-title>
         </v-list-item>
@@ -61,6 +67,9 @@ export default {
     },
     isDriver() {
       return this.$store.getters.isDriver;
+    },
+    isAdmin() {
+      return this.$store.state.currentAccount.isAdmin;
     }
   },
 

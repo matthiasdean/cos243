@@ -16,7 +16,7 @@
             <td>{{ item.fuel_price }}</td>
             <td>{{ item.fee }}</td>
             <td>
-              <v-icon small @click="deleteAccount(item)">
+              <v-icon small @click="deleteRide(item)">
                 mdi-delete
               </v-icon>
               <v-icon v-if="isDriver" small @click="updateAccount(item)">
@@ -72,7 +72,8 @@ export default {
 
   mounted: function() {
     this.$axios.post("/rides", {
-        passenger_id: this.$store.state.currentAccount.id
+        passenger_id: this.$store.state.currentAccount.id,
+        signup: false
     })
     .then(response => {
       this.rides = response.data.map(ride => ({
@@ -99,6 +100,15 @@ export default {
       if (currentAccount && currentAccount.id === item.id) {
         return "currentAccount";
       }
+    },
+
+    deleteRide(item) {
+      console.log("UPDATE", JSON.stringify(item, null, 2));
+      this.$axios.delete("/rides", {
+        passenger_id: this.$store.state.currentAccount.id,
+        ride_id: item.ride_id,
+      })
+      this.showSnackbar("Ride removed.");
     },
 
     // Update account information.
