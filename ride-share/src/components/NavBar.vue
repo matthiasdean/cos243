@@ -23,9 +23,6 @@
     <v-btn v-if="isLoggedIn" text v-bind:to="{ name: 'my-rides' }">
       My Rides
     </v-btn>
-    <v-btn v-if="isDriver && isLoggedIn" text v-bind:to="{ name: 'provide-a-ride' }">
-      Provide a Ride
-    </v-btn>
     <v-btn text v-bind:to="{ name: 'about-us' }">About Us</v-btn>
 
     <v-menu v-if="isLoggedIn" offset-y>
@@ -38,12 +35,6 @@
       </template>
 
       <v-list>
-        <v-list-item>
-          <v-list-item-title v-if="isDriver">Driver</v-list-item-title>
-          <v-list-item-title v-elseif="!isDriver">User</v-list-item-title>
-        </v-list-item>
-
-        <v-divider></v-divider>
 
         <v-list-item v-if="isAdmin" v-bind:to="{ name: 'admin-page' }">
           <v-list-item-title>Admin</v-list-item-title>

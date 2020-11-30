@@ -19,7 +19,7 @@
               <v-icon small @click="deleteRide(item)">
                 mdi-delete
               </v-icon>
-              <v-icon v-if="isDriver" small @click="updateAccount(item)">
+              <v-icon v-if="isDriver" small @click="becomeRideDriver(item)">
                 mdi-steering
               </v-icon>
             </td>
@@ -76,7 +76,7 @@ export default {
         this.rides = response.data.map((ride) => ({
           ride_id: ride.ride_id,
           date: ride.rides.date,
-          time: ride.rdes.time,
+          time: ride.rides.time,
           distance: ride.rides.distance,
           fuel_price: ride.rides.fuel_price,
           fee: ride.rides.fee,
@@ -111,9 +111,9 @@ export default {
     },
 
     // Update account information.
-    updateAccount(item) {
+    becomeRideDriver(item) {
       console.log("UPDATE", JSON.stringify(item, null, 2));
-      this.showSnackbar("Sorry, update is not yet implemented.");
+      this.showSnackbar("Sorry, this is not yet implemented.");
     },
 
     // Delete an account.

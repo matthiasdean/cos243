@@ -27,6 +27,7 @@
             <td>{{ item.city }}</td>
             <td>{{ item.state }}</td>
             <td>{{ item.zip_code }}</td>
+            <td>{{ item.vehicle_capacity }}</td>
             <td>
               <v-icon small class="ml-2" @click="addRide(item)">
                 mdi-transit-transfer
@@ -62,6 +63,7 @@ export default {
         { text: "City", value: "city" },
         { text: "State", value: "state" },
         { text: "ZIP", value: "zip_code" },
+        { text: "Capacity", value: "vehicle_capacity" },
         { text: "Action", value: "action" },
       ],
       rides: [],
@@ -90,6 +92,7 @@ export default {
           city: ride.to_locations.city,
           state: ride.to_locations.state,
           zip_code: ride.to_locations.zip_code,
+          vehicle_capacity: ride.vehicles.capacity,
         })
       );
     });

@@ -20,6 +20,8 @@ const User = require("./api/models/User");
 const Driver = require("./api/models/Driver");
 const Passenger = require("./api/models/Passenger");
 const Vehicle = require("./api/models/Vehicle");
+const Vehicle_Type = require("./api/models/Vehicle-Type");
+const Location = require("./api/models/Location");
 
 // Hapi
 const Joi = require("@hapi/joi"); // Input validation
@@ -105,7 +107,8 @@ async function init() {
       handler: () => {
         return Ride.query()
           .withGraphFetched("to_locations")
-          .withGraphFetched("from_locations");
+          .withGraphFetched("from_locations")
+          .withGraphFetched("vehicles");
       },
     },
 
@@ -309,6 +312,192 @@ async function init() {
         return Vehicle.query();
       },
     },
+
+    {
+      method: "DELETE",
+      path: "/vehicle/{vehicle_id}",
+      config: {
+        description: "Delete an exisiting vehicle",
+      },
+      handler: (request, h) => {
+        return Vehicle.query()
+          .deleteById(request.params.vehicle_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted vehicle with ID '${request.params.vehicle_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete vehicle with ID '${request.params.vehicle_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/vehicle_types",
+      config: {
+        description: "Retrieve all vehicle types",
+      },
+      handler: () => {
+        return Vehicle_Type.query();
+      },
+    },
+
+    {
+      method: "DELETE",
+      path: "/vehicle_type/{vehicle_type_id}",
+      config: {
+        description: "Delete an exisiting vehicle type",
+      },
+      handler: (request, h) => {
+        return Vehicle_Type.query()
+          .deleteById(request.params.vehicle_type_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted vehicle type with ID '${request.params.vehicle_type_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete vehicle type with ID '${request.params.vehicle_type_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/locations",
+      config: {
+        description: "Retrieve all locations",
+      },
+      handler: () => {
+        return Location.query();
+      },
+    },
+
+    {
+      method: "DELETE",
+      path: "/location/{location_id}",
+      config: {
+        description: "Delete an exisiting location",
+      },
+      handler: (request, h) => {
+        return Location.query()
+          .deleteById(request.params.location_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted location with ID '${request.params.location_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete location with ID '${request.params.location_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/users",
+      config: {
+        description: "Retrieve all users",
+      },
+      handler: () => {
+        return User.query();
+      },
+    },
+
+    {
+      method: "DELETE",
+      path: "/user/{user_id}",
+      config: {
+        description: "Delete an exisiting user",
+      },
+      handler: (request, h) => {
+        return User.query()
+          .deleteById(request.params.user_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted user with ID '${request.params.user_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete user with ID '${request.params.user_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/drivers",
+      config: {
+        description: "Retrieve all drivers",
+      },
+      handler: () => {
+        return Driver.query()
+          .withGraphFetched("users");
+      },
+    },
+
+    {
+      method: "DELETE",
+      path: "/driver/{driver_id}",
+      config: {
+        description: "Delete an exisiting driver",
+      },
+      handler: (request, h) => {
+        return Driver.query()
+          .deleteById(request.params.driver_id)
+          .then((rowsDeleted) => {
+            if (rowsDeleted === 1) {
+              return {
+                ok: true,
+                msge: `Deleted driver with ID '${request.params.driver_id}'`,
+              };
+            } else {
+              return {
+                ok: false,
+                msge: `Couldn't delete driver with ID '${request.params.driver_id}'`,
+              };
+            }
+          });
+      },
+    },
+
+    {
+      method: "GET",
+      path: "/passengers",
+      config: {
+        description: "Retrieve all passengers",
+      },
+      handler: () => {
+        return Passenger.query()
+          .withGraphFetched("users")
+          .withGraphFetched("rides");
+      },
+    },
+
+
+
   ]);
 
   // Start the server.

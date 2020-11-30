@@ -24,7 +24,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn v-on:click="addDriver" color="primary">Log In</v-btn>
+            <v-btn v-on:click="addDriver" color="primary">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
