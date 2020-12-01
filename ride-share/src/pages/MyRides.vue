@@ -19,8 +19,11 @@
               <v-icon small @click="deleteRide(item)">
                 mdi-delete
               </v-icon>
-              <v-icon v-if="isDriver" small @click="becomeRideDriver(item)">
-                mdi-steering
+              <v-icon v-if="isDriver && !item.rideDriver" small @click="becomeRideDriver(item)">
+                mdi-steering <!-- Show signup -->
+              </v-icon>
+              <v-icon v-if="isDriver && item.rideDriver" small @click="becomeRideDriver(item)">
+                mdi-steering-off <!-- Show remove signup -->
               </v-icon>
             </td>
           </tr>
@@ -80,6 +83,7 @@ export default {
           distance: ride.rides.distance,
           fuel_price: ride.rides.fuel_price,
           fee: ride.rides.fee,
+          rideDriver: false,
         }));
       });
   },
@@ -113,7 +117,14 @@ export default {
     // Update account information.
     becomeRideDriver(item) {
       console.log("UPDATE", JSON.stringify(item, null, 2));
-      this.showSnackbar("Sorry, this is not yet implemented.");
+      if (item.rideDriver) {
+        item.rideDriver = false;
+        this.showSnackbar("You are now no longer a driver for the indicated ride!");
+      } else {
+        item.rideDriver = true;
+        this.showSnackbar("You are now a driver for the indicated ride!");
+      }
+
     },
 
     // Delete an account.

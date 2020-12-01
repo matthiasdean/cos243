@@ -3,7 +3,7 @@
     <div>
       <h4 class="display-1">Sign Up</h4>
 
-      <instructions details="Sign up for our nifty site." />
+      <instructions details="Sign up for DM Ride Share." />
 
       <v-form v-model="valid">
         <v-text-field
@@ -15,6 +15,12 @@
           v-model="newMember.lastName"
           v-bind:rules="rules.required"
           label="Last name"
+        ></v-text-field>
+        <v-text-field
+          v-model="newMember.phone"
+          v-bind:rules="rules.required"
+          label="Phone Number"
+          type="phone"
         ></v-text-field>
         <v-text-field
           v-model="newMember.email"
@@ -79,6 +85,7 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
         password: "",
       },
 
@@ -122,6 +129,7 @@ export default {
           firstName: this.newMember.firstName,
           lastName: this.newMember.lastName,
           email: this.newMember.email,
+          phone: this.newMember.phone,
           password: this.newMember.password,
         })
         .then((result) => {

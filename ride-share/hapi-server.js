@@ -61,6 +61,8 @@ async function init() {
             email: Joi.string()
               .email()
               .required(),
+            phone: Joi.string()
+              .required(),
             password: Joi.string().required(),
           }),
         },
@@ -80,8 +82,8 @@ async function init() {
           firstName: request.payload.firstName,
           lastName: request.payload.lastName,
           email: request.payload.email,
+          phone: request.payload.phone,
           password: request.payload.password,
-          phone: "765-555-1212", // THIS SHOULD BE ANOTHER FORM FIELD
         });
 
         if (newAccount) {
@@ -269,37 +271,6 @@ async function init() {
               msge: `Removed User from Ride. PID: ${request.payload.passenger_id} - RID: ${request.payload.ride_id}`,
             };
           }),
-    },
-
-    {
-      method: "POST",
-      path: "/become-driver", // TODO: change this
-      config: {
-        description: "Set user as driver",
-      },
-      handler: async (request, h) => {
-        const driver = await Driver.query()
-          .withSchema("ride_share")
-          .where("user_id", request.payload.user_id)
-          .first();
-        if (driver) {
-          return {
-            ok: true,
-            msge: `User with user id '${request.payload.user_id}' is a driver.`,
-            details: {
-              driver_id: driver.driver_id,
-              user_id: driver.user_id,
-              licenseNumber: driver.licenseNumber,
-              licenseState: driver.LicenseState,
-            },
-          };
-        } else {
-          return {
-            ok: false,
-            msge: "User is not a driver",
-          };
-        }
-      },
     },
 
     {
